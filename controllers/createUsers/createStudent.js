@@ -18,6 +18,7 @@ export const createStudent = async (req, res) => {
       notifyMethod,
       address,
     } = req.body;
+    const url = req.imageUrl
     // console.log(name)
     const teacherId = req.user.id;
     if (
@@ -30,7 +31,8 @@ export const createStudent = async (req, res) => {
       !fatherName ||
       !parentMobile ||
       !notifyMethod ||
-      !address
+      !address ||
+      !url
     ) {
       return customRes(
         res,
@@ -72,7 +74,9 @@ export const createStudent = async (req, res) => {
       email,
       password: hashed,
       role: roleStudent,
+      url,
     });
+
     const newStudent = await Student.create({
       userId: newUser._id,
       class: teacherClass.classAssigned,
@@ -100,6 +104,7 @@ export const createStudent = async (req, res) => {
         notifyMethod,
         gender,
         role: roleStudent,
+        url,
       },
     );
   } catch (err) {

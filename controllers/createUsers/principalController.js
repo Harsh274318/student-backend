@@ -5,7 +5,8 @@ const role = "principal";
 export async function principal(req, res) {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const url = req.imageUrl
+    if (!name || !email || !password || !url) {
       return customRes(
         res,
         400,
@@ -26,6 +27,7 @@ export async function principal(req, res) {
         "no data",
       );
     }
+    console.log(process.env.PRINCIPAL)
     if (email !== process.env.PRINCIPAL) {
       return customRes(res, 400, false, "", "invlid email", "");
     }
@@ -44,11 +46,13 @@ export async function principal(req, res) {
       email,
       password: hashPassword,
       role,
+      url,
     });
     return customRes(res, 201, true, "User created successfully!", "", {
       name,
       email,
       role,
+      url,
     });
   } catch (err) {
     return customRes(res, 500, false, "", err.message, "");

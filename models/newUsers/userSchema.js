@@ -2,13 +2,6 @@ import mongoose from "mongoose";
 // regester schema for all
 const userSchema = new mongoose.Schema(
   {
-    // name: {
-    //   type: String,
-    //   trim: true,
-    //   lowercase: true,
-    //   required: [true, "Name is missing"],
-    //   match: [/^[a-z ]+$/, "Only alphabets and spaces allowed"],
-    // },
     email: {
       type: String,
       required: [true, "email is required"],
@@ -30,6 +23,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["student", "teacher", "principal"],
       required: [true, "role must be one of student, teacher or principal"],
+    },
+    url: {
+      type: String,
+      required: [true, "Image is Missing in user"],
     },
 
     isActive: { type: Boolean, default: true },
