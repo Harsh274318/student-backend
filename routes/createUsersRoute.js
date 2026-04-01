@@ -4,11 +4,16 @@ import { authUser } from "../middleware/authUser.js";
 import { roleCheck } from "../middleware/roleCheck.js";
 import { createTeacher } from "../controllers/createUsers/createTeacher.js";
 import { createStudent } from "../controllers/createUsers/createStudent.js";
-import { upload } from "../middleware/upload.js";
-import uploadImage from "../middleware/cloudinaryUploads.js";
+import cloudinaryUploads from "../middleware/cloudinaryUploads.js";
+import { uploadOnMulter } from "../middleware/uploadOnMulter.js";
+import otpCkecker from "../controllers/otp/otpCkecker.js";
+
+
+
 const newUserRouter = express.Router();
-newUserRouter.post("/create-principal", upload.single("image"), uploadImage, principal);
-newUserRouter.post("/create-teacher", authUser, roleCheck("principal"), upload.single("image"), uploadImage, createTeacher,);
-newUserRouter.post("/create-student", authUser, roleCheck("teacher"), upload.single("image"), uploadImage, createStudent,);
+newUserRouter.post("/create-principal", uploadOnMulter.single("image"), cloudinaryUploads, principal);
+newUserRouter.post("/create-teacher", authUser, otpCkecker, roleCheck("Principal"), uploadOnMulter.single("image"), cloudinaryUploads, createTeacher,);
+
+newUserRouter.post("/create-student", authUser, otpCkecker, roleCheck("Teacher"), uploadOnMulter.single("image"), cloudinaryUploads, createStudent,);
 
 export default newUserRouter;

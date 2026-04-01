@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// regester schema for all
+// register schema for all
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, "Enter valid email"],
+    },
+    name: {
+      type: String,
+      required: [true, "name is missing"],
     },
     password: {
       type: String,
@@ -21,12 +25,16 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["student", "teacher", "principal"],
+      enum: ["Student", "Teacher", "Principal"],
       required: [true, "role must be one of student, teacher or principal"],
     },
     url: {
       type: String,
-      required: [true, "Image is Missing in user"],
+      default: ""
+    },
+    public_id: {
+      type: String,
+      default: ""
     },
 
     isActive: { type: Boolean, default: true },

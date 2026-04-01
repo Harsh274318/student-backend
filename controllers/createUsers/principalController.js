@@ -1,18 +1,18 @@
 import bcrypt from "bcrypt";
 import User from "../../models/newUsers/userSchema.js";
 import customRes from "../../utils/customRes.js";
-const role = "principal";
+const role = "Principal";
 export async function principal(req, res) {
   try {
     const { name, email, password } = req.body;
-    const url = req.imageUrl
+    const { url, public_id } = req.imageInfo;
     if (!name || !email || !password || !url) {
       return customRes(
         res,
         400,
         false,
         "",
-        "somthing is wrong, check all filled",
+        "something is wrong, check all filled",
         "",
       );
     }
@@ -27,9 +27,9 @@ export async function principal(req, res) {
         "no data",
       );
     }
-    console.log(process.env.PRINCIPAL)
+    // console.log(process.env.PRINCIPAL)
     if (email !== process.env.PRINCIPAL) {
-      return customRes(res, 400, false, "", "invlid email", "");
+      return customRes(res, 400, false, "", "invalid email", "");
     }
 
     const isPrincipal = await User.findOne({ role: "principal" });
@@ -47,6 +47,7 @@ export async function principal(req, res) {
       password: hashPassword,
       role,
       url,
+      public_id,
     });
     return customRes(res, 201, true, "User created successfully!", "", {
       name,

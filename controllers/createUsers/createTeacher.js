@@ -2,10 +2,10 @@ import customRes from "../../utils/customRes.js";
 import bcrypt from "bcrypt";
 import User from "../../models/newUsers/userSchema.js";
 import Teacher from "../../models/newUsers/teacherSchema.js";
-const teacherRole = "teacher";
+const teacherRole = "Teacher";
 export async function createTeacher(req, res) {
   const { name, email, password, asClass, gender } = req.body;
-  const url = req.imageUrl
+  const { url, public_id } = req.imageInfo;
   try {
     if (!name || !email || !password || !asClass || !gender || !url) {
       return customRes(
@@ -13,7 +13,7 @@ export async function createTeacher(req, res) {
         400,
         false,
         "",
-        "somthing is wrong, check all filled",
+        "something is wrong, check all filled",
         "",
       );
     }
@@ -42,11 +42,10 @@ export async function createTeacher(req, res) {
       password: hashed,
       role: teacherRole,
       url,
+      public_id,
     });
     await Teacher.create({
       userId: newUser._id,
-      name,
-      email,
       gender,
       classAssigned: asClass,
     });

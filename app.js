@@ -1,14 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config();
 import connectDB from "./config/db.js";
+dotenv.config();
+connectDB();
 import authRoute from "./routes/authRoute.js";
 import newUserRouter from "./routes/createUsersRoute.js";
 import getUserRoute from "./routes/getUserRoute.js";
 import deleteRoute from "./routes/deleteUserRoute.js";
 import patchRoute from "./routes/updatePassword.js";
-
-connectDB();
+import sendRoute from "./routes/sendRoute.js";
 const PORT = process.env.PORT;
 const app = express();
 app.use(express.json());
@@ -23,6 +23,8 @@ app.use("/api", getUserRoute);
 app.use("/api/user", patchRoute);
 // for delete user DELETE APIs
 app.use("/api", deleteRoute);
+// for send Notifications
+app.use("/api/notify", sendRoute);
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT} `);
 });

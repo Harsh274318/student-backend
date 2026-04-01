@@ -18,7 +18,7 @@ export const createStudent = async (req, res) => {
       notifyMethod,
       address,
     } = req.body;
-    const url = req.imageUrl
+    const { url, public_id } = req.imageInfo;
     // console.log(name)
     const teacherId = req.user.id;
     if (
@@ -72,16 +72,16 @@ export const createStudent = async (req, res) => {
     );
     const newUser = await User.create({
       email,
+      name,
       password: hashed,
       role: roleStudent,
       url,
+      public_id,
     });
 
     const newStudent = await Student.create({
       userId: newUser._id,
       class: teacherClass.classAssigned,
-      email,
-      name,
       dob,
       rollNumber,
       gender,

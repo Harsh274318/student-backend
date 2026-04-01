@@ -1,14 +1,17 @@
 import mongoose, { Schema } from "mongoose";
-const postSchema = new Schema({
+const postSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "name is missing !"],
         trim: true
     },
-    class: {
+    email: {
         type: String,
-        required: [true, "class is missing"],
-        trim: true
+        required: [true, "email is required"],
+        unique: true,
+        lowercase: true,
+        trim: true,
+        match: [/^\S+@\S+\.\S+$/, "Enter valid email"],
     },
     title: {
         type: String,
@@ -26,14 +29,23 @@ const postSchema = new Schema({
         trim: true
     },
     likes: {
-        type: Number,
-        default: 0
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "User",
+        default: []
+    },
+    url: {
+        type: String,
+        default: ""
     },
     comments: [
         {
             user: {
                 type: String,
                 required: true
+            },
+            url:{
+                type:String,
+                default:""
             },
             message: {
                 type: String,
@@ -44,7 +56,7 @@ const postSchema = new Schema({
                 type: Date,
                 default: Date.now
             },
-            trim: true
+
         }
     ]
 }, { timestamps: true })

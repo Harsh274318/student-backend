@@ -5,18 +5,7 @@ const teacherSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "id is missing"],
   },
-  email: {
-    type: String,
-    required: [true, "email is required"],
-    unique: true,
-    lowercase: true,
-    trim: true,
-    match: [/^\S+@\S+\.\S+$/, "Enter valid email"],
-  },
-  name: {
-    type: String,
-    required: [true, "name is missing"],
-  },
+ 
   classAssigned: {
     type: String,
     unique: [true, "user exist with this class"],

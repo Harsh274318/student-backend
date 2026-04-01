@@ -31,7 +31,7 @@ export async function login(req, res) {
     if (!match) {
       return customRes(
         res,
-        404,
+        401,
         false,
         "",
         "Something is wrong check email or password",
@@ -42,6 +42,7 @@ export async function login(req, res) {
       id: user._id,
       email: user.email,
       role: user.role,
+      name: user.name,
     };
     const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -50,6 +51,7 @@ export async function login(req, res) {
       id: user._id,
       email,
       role: user.role,
+      name: user.name,
       token,
     });
   } catch (err) {

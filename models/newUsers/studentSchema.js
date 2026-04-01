@@ -7,18 +7,7 @@ const studentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    email: {
-      type: String,
-      required: [true, "email is required"],
-      unique: true,
-      lowercase: true,
-      trim: true,
-      match: [/^\S+@\S+\.\S+$/, "Enter valid email"],
-    },
-    name: {
-      type: String,
-      required: [true, "name is missing"],
-    },
+    
     class: {
       type: String,
       required: [true, "class is missing"],
