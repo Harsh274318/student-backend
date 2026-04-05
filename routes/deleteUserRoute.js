@@ -6,5 +6,5 @@ import { deleteStudent } from "../controllers/deleteUser/deleteStudent.js";
 
 const deleteRoute = express.Router();
 deleteRoute.delete("/delete-teacher", authUser, roleCheck("Principal"), deleteTeacher,);
-deleteRoute.delete("/deleteStudent", authUser, roleCheck("Peacher"), deleteStudent,);
+deleteRoute.delete("/delete-Student", authUser, roleCheck("Teacher"), deleteStudent,);
 export default deleteRoute;

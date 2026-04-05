@@ -7,7 +7,7 @@ const teacherSchema = new mongoose.Schema({
   },
  
   classAssigned: {
-    type: String,
+    type: Number,
     unique: [true, "user exist with this class"],
     required: true,
   },

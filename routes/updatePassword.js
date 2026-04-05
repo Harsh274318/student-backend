@@ -9,5 +9,5 @@ import updateProfile from "../controllers/patch/updateProfile.js";
 const patchRoute = e.Router();
 patchRoute.patch("/update-password", authUser, updatePassword);
 patchRoute.patch("/reset-password", authUser, roleCheck("Principal"), resetPassword,);
-patchRoute.patch("update-profile",authUser,multerImagepost.single("image"),uploadImage,updateProfile)
+patchRoute.patch("/update-profile",authUser,multerImagepost.single("image"),uploadImage,updateProfile)
 export default patchRoute;

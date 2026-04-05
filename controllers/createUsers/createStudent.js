@@ -3,6 +3,7 @@ import Student from "../../models/newUsers/studentSchema.js";
 import customRes from "../../utils/customRes.js";
 import bcrypt from "bcrypt";
 import Teacher from "../../models/newUsers/teacherSchema.js";
+import Session from "../../models/PrincipalControlModel/session.js";
 const roleStudent = "student";
 export const createStudent = async (req, res) => {
   try {
@@ -11,15 +12,16 @@ export const createStudent = async (req, res) => {
       email,
       password,
       dob,
-      rollNumber,
       gender,
       fatherName,
       parentMobile,
       notifyMethod,
       address,
+
     } = req.body;
+    let { rollNumber } = req.body;
     const { url, public_id } = req.imageInfo;
-    // console.log(name)
+
     const teacherId = req.user.id;
     if (
       !name ||
@@ -42,21 +44,30 @@ export const createStudent = async (req, res) => {
         "Something is missing, check all filled ",
       );
     }
+    if (parentMobile.length !== 10) {
+      return customRes(res, 400, false, "", "Invalid mobile number", "");
+    }
+    rollNumber = Number(rollNumber);
+    if (isNaN(rollNumber)) {
+      return customRes(res, 400, false, "", "Invalid roll number", "");
+    }
     const isUser = await User.findOne({ email });
     if (isUser) {
       return customRes(res, 409, false, "", "User already exists", "");
     }
-    const teacherClass = await Teacher.findOne({ userId: teacherId }).select(
-      "classAssigned",
-    );
-    if (!teacherClass) {
-      return customRes(res, 404, false, "", "Teacher class not found", "");
+    const teacher = await Teacher.findOne({ userId: teacherId })
+    if (!teacher) {
+      return customRes(res, 404, false, "", "Teacher not found", "");
     }
-    const isroll = await Student.findOne({
+    const thisSession = await Session.findOne()
+    if (!thisSession) return customRes(res, 404, false, "", "session not found", "");
+
+    const isEnroll = await Student.findOne({
       rollNumber,
-      class: teacherClass.classAssigned,
+      class: teacher.classAssigned,
+      session: thisSession.currentSession,
     });
-    if (isroll) {
+    if (isEnroll) {
       return customRes(
         res,
         409,
@@ -81,15 +92,18 @@ export const createStudent = async (req, res) => {
 
     const newStudent = await Student.create({
       userId: newUser._id,
-      class: teacherClass.classAssigned,
+      class: teacher.classAssigned,
       dob,
-      rollNumber,
+      rollNumber: Number(teacher.classAssigned) * 100 + Number(rollNumber),
       gender,
       fatherName,
       parentMobile,
       notifyMethod,
       address,
+      session: thisSession.currentSession,
     });
+    if (!newStudent) return customRes(res, 400, false, "", "user not created", "");
+
     return customRes(
       res,
       201,
@@ -97,7 +111,6 @@ export const createStudent = async (req, res) => {
       "User create successfully as student",
       "",
       {
-        id: newStudent.userId,
         name,
         email,
         parentMobile,
@@ -105,6 +118,7 @@ export const createStudent = async (req, res) => {
         gender,
         role: roleStudent,
         url,
+        session: thisSession.currentSession,
       },
     );
   } catch (err) {

@@ -1,25 +1,38 @@
 import customRes from "../../utils/customRes.js";
 import Posts from "../../models/post/postSchema.js";
 import User from "../../models/newUsers/userSchema.js";
-import Teacher from "../../models/newUsers/teacherSchema.js";
-import Student from "../../models/newUsers/studentSchema.js";
+
 
 const comments = async (req, res) => {
     try {
+        // getting post id
         const { postId } = req.params;
+        // getting email and name of user
         const { email, name } = req.user;
+        // getting message for comment
         const { message } = req.body;
-        if (!postId || !message) return customRes(res, 400, false, "", "Something is missing......", "");
+        // checking user send details 
+        if (!postId) return customRes(res, 400, false, "", "Something is missing......", "");
+        // checking message should not empty
+        if (!message || message.trim() === "") return customRes(res, 400, false, "", "Message is empty", "");
+        // finding post 
         const post = await Posts.findById(postId);
-        if (!post) return customRes(res, 404, false, "", "Post not found!", "")
-        const user = await User.findOne({ email });
-        if (!user) return customRes(res, 404, false, "", "User not found!", "");
+        // checking is post or not
+        if (!post) return customRes(res, 404, false, "", "Post not found!", "");
+        // finding user for url
+        const isUser = await User.findOne({ email, name });
+        // checking is user or not
+        if (!isUser) return customRes(res, 404, false, "", "User not found!", "");
+        // if everything is okk 
         post.comments.push({
             message,
             user: name,
-            url: user.url
+            id: isUser._id,
+            url: isUser.url
         })
+        // saveing comment in post
         await post.save();
+        // sendin details to user
         return customRes(res, 200, true, "Comment added successfully", "", post.comments)
     }
     catch (err) {

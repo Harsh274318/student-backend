@@ -5,13 +5,10 @@ const postSchema = new mongoose.Schema({
         required: [true, "name is missing !"],
         trim: true
     },
-    email: {
+    userId: {
         type: String,
-        required: [true, "email is required"],
-        unique: true,
-        lowercase: true,
-        trim: true,
-        match: [/^\S+@\S+\.\S+$/, "Enter valid email"],
+        required: [true, "userId is required"],
+        
     },
     title: {
         type: String,
@@ -41,7 +38,11 @@ const postSchema = new mongoose.Schema({
         {
             user: {
                 type: String,
-                required: true
+                required: [true,"user is missing"]
+            },
+            userId:{
+                 type: String,
+                required: [true, "id is missing"]
             },
             url:{
                 type:String,
@@ -49,7 +50,7 @@ const postSchema = new mongoose.Schema({
             },
             message: {
                 type: String,
-                required: true,
+                required: [true,"message is missing"],
                 trim: true
             },
             date: {

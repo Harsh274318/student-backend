@@ -7,10 +7,14 @@ const studentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    
+
     class: {
       type: String,
       required: [true, "class is missing"],
+    },
+    session: {
+      type: String,
+      required: [true, "session is missed"]
     },
     dob: {
       type: Date,
@@ -38,7 +42,7 @@ const studentSchema = new mongoose.Schema(
     },
     notifyMethod: {
       type: String,
-      enum: ["sms", "whatsapp"],
+      enum: ["sms", "email"],
       required: [true, "Notification method is required for student"],
     },
     address: {

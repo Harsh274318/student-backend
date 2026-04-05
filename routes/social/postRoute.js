@@ -1,7 +1,18 @@
 import e from "express";
 import { authUser } from "../../middleware/authUser.js";
-import createPost from "../../controllers/social/postController.js";
-
+import createPost from "../../controllers/socialController/postController.js";
+import { multerImagepost } from "../../middleware/multerImagepost.js";
+import cloudinaryUploads from "../../middleware/cloudinaryUploads.js";
+import likes from "../../controllers/socialController/likeController.js";
+import comments from "../../controllers/socialController/commentController.js";
+import deleteComment from "../../controllers/socialController/deletComment.js";
+import deletePost from "../../controllers/socialController/deletetPost.js";
 const postRoute = e.Router();
 
-postRoute.post("post",authUser,createPost)
+postRoute.post("/student-post", authUser, createPost);
+postRoute.post("/school-post", authUser, multerImagepost.single("image"), cloudinaryUploads, createPost);
+postRoute.post("/post/:postId/comment", authUser, comments)
+postRoute.patch("/post/:postId/like", authUser, likes);
+postRoute.delete("/post/:postId/:commentId/comment", authUser, deleteComment);
+postRoute.delete("/post/:postId", authUser, deletePost);
+export default postRoute
