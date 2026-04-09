@@ -5,12 +5,14 @@ import fs from "fs"
 const cloudinaryUploads = async function (req, res, next) {
     // console.log(req.file.path)
     try {
+
         const { email } = req.body
+        console.log(email)
         if (!email) return customRes(res, 400, false, "", "info missing", "");
         const isUser = await User.findOne({ email });
         if (isUser && isUser.public_id) { await cloudinary.uploader.destroy(isUser.public_id) }
 
-        if (!req.file || !req.file.path) return customRes(res, 404, false, "", "not found Image", "")
+        if (!req.file || !req.file.path) return customRes(res, 400, false, "", "not found Image", "")
         const result = await cloudinary.uploader.upload(req.file.path, { resource_type: "image" });
         fs.unlinkSync(req.file.path);
         req.imageInfo = {

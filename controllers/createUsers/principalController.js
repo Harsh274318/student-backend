@@ -6,6 +6,7 @@ export async function principal(req, res) {
   try {
     const { name, email, password } = req.body;
     const { url, public_id } = req.imageInfo;
+    console.log(name, email, password)
     if (!name || !email || !password || !url) {
       return customRes(
         res,
@@ -56,6 +57,7 @@ export async function principal(req, res) {
       url,
     });
   } catch (err) {
+    console.log(err.message)
     return customRes(res, 500, false, "", err.message, "");
   }
 }
