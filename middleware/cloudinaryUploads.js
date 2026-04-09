@@ -7,7 +7,6 @@ const cloudinaryUploads = async function (req, res, next) {
     try {
 
         const { email } = req.body
-        console.log(email)
         if (!email) return customRes(res, 400, false, "", "info missing", "");
         const isUser = await User.findOne({ email });
         if (isUser && isUser.public_id) { await cloudinary.uploader.destroy(isUser.public_id) }

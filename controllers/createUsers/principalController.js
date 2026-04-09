@@ -6,7 +6,6 @@ export async function principal(req, res) {
   try {
     const { name, email, password } = req.body;
     const { url, public_id } = req.imageInfo;
-    console.log(name, email, password)
     if (!name || !email || !password || !url) {
       return customRes(
         res,
