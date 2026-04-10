@@ -53,6 +53,8 @@ export async function login(req, res) {
       role: user.role,
       name: user.name,
       token,
+      url: user.url,
+      public_id: user.public_id
     });
   } catch (err) {
     console.log(err.message);
