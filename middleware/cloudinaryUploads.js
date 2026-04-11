@@ -18,7 +18,7 @@ const cloudinaryUploads = async function (req, res, next) {
             url: result.secure_url,
             public_id: result.public_id
         };
-        console.log("everything is okk in cloud")
+        // console.log("everything is okk in cloud")
         next();
 
 

@@ -10,7 +10,7 @@ import deletePost from "../../controllers/socialController/deletetPost.js";
 const postRoute = e.Router();
 
 postRoute.post("/student-post", authUser, createPost);
-postRoute.post("/school-post", authUser, multerImagepost.single("image"), cloudinaryUploads, createPost);
+postRoute.post("/school-post", multerImagepost.single("image"), authUser, cloudinaryUploads, createPost);
 postRoute.post("/post/:postId/comment", authUser, comments)
 postRoute.patch("/post/:postId/like", authUser, likes);
 postRoute.delete("/post/:postId/:commentId/comment", authUser, deleteComment);
