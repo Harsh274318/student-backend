@@ -27,7 +27,7 @@ const comments = async (req, res) => {
         post.comments.push({
             message,
             user: name,
-            isUser: isUser._id,
+            userId: isUser._id.toString(),
             url: isUser.url
         })
         // saveing comment in post
