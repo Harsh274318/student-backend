@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 // :api calls
 app.get("/", (req, res) => {
-  res.send({ status: 200, success: true, wellcome: "User", message: "server is working" });
+  res.send({ status: 200, success: true, wellcome: "User", message: "server is working on 1:35am" });
 });
 // only for login
 app.use("/api/auth", authRoute);
