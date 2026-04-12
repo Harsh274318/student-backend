@@ -6,11 +6,11 @@ import customRes from "../../utils/customRes.js";
 const deleteComment = async (req, res) => {
     try {
         // getting user details from authUser middlewere
-        const { email, _id } = req.user;
+        const { email, id } = req.user;
         // getting post and comment details from query
         const { postId, commentId } = req.params;
         // confirming each value properly attached
-        if (!email || !_id) return customRes(res, 400, false, "", "something is wrong try again after login", "");
+        if (!email || !id) return customRes(res, 400, false, "", "something is wrong try again after login", "");
         if (!postId || !commentId) return customRes(res, 400, false, "", "Something is wrong with post or comment", "");
         // finding valid post in db
         const isPost = await Posts.findById(postId);
@@ -18,7 +18,7 @@ const deleteComment = async (req, res) => {
         if (!isPost) return customRes(res, 404, false, "", "Post not found", "");
         // finding valid comment in post
         const lengthbefore = isPost.comments.length
-        isPost.comments = isPost.comments.filter(com => !(com._id.toString() === commentId && com.userId.toString() === _id.toString())
+        isPost.comments = isPost.comments.filter(com => !(com._id.toString() === commentId && com.userId.toString() === id.toString())
         );
         await isPost.save()
         const lengthAfter = isPost.comments.length
