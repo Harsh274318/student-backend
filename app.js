@@ -14,6 +14,7 @@ import postRoute from "./routes/social/postRoute.js";
 const PORT = process.env.PORT;
 const app = express();
 import cors from "cors";
+import principalRoute from "./routes/principalRoutes.js";
 app.use(cors());
 app.use(express.json());
 // :api calls
@@ -23,7 +24,7 @@ app.get("/", (req, res) => {
 // only for login
 app.use("/api/auth", authRoute);
 // for create user POST APIs
-app.use("/api", newUserRouter); 
+app.use("/api", newUserRouter);
 // for View/getUser GET APIs
 app.use("/api", getUserRoute);
 // for update password PATCH API
@@ -35,7 +36,8 @@ app.use("/api/notify", sendRoute);
 // teacher Routes
 app.use("/api/teacher", teacherRoute);
 // for post Routes
-app.use("/api/social", postRoute);//noted
+app.use("/api/social", postRoute);
+app.use("/api", principalRoute);
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT} `);
 });
