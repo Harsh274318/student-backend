@@ -5,7 +5,7 @@ import fs from "fs"
 const cloudinaryUploads = async function (req, res, next) {
     // console.log(req.file.path)
     try {
-
+        if (!req.file) return next();//for skip image if not 
         const { email } = req.body
         if (!email) return customRes(res, 400, false, "", "info missing", "");
         const isUser = await User.findOne({ email });

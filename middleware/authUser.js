@@ -20,6 +20,7 @@ export function authUser(req, res, next) {
     next();
   } catch (err) {
     console.log(err.message, "auth");
+    if (req.file?.path) fs.unlinkSync(req.file.path);//remove image which comes with req
     return customRes(res, 500, false, "", err, "");
   }
 }
