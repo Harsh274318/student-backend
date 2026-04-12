@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: [true, "userId is required"],
-        
+
     },
     title: {
         type: String,
@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ["study", "news", "announcement", "general"],
+        enum: ["study", "student", "news", "announcement", "general"],
         trim: true
     },
     likes: {
@@ -38,19 +38,19 @@ const postSchema = new mongoose.Schema({
         {
             user: {
                 type: String,
-                required: [true,"user is missing"]
+                required: [true, "user is missing"]
             },
-            userId:{
-                 type: String,
+            userId: {
+                type: String,
                 required: [true, "id is missing"]
             },
-            url:{
-                type:String,
-                default:""
+            url: {
+                type: String,
+                default: ""
             },
             message: {
                 type: String,
-                required: [true,"message is missing"],
+                required: [true, "message is missing"],
                 trim: true
             },
             date: {
