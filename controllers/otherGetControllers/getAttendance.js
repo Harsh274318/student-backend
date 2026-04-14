@@ -10,7 +10,12 @@ const getAttendance = async (req, res) => {
         const date = req.params.id;
         const userId = req.user.id
         let isclass = req.query.class;
-        const currentDate = new Date().toISOString().split("T")[0]
+        const currentDate = new Date().toLocaleString("en-CA", {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).split("/").join("-")
         if (!date) return customRes(res, 400, false, "", "dete is missing", "");
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         if (!dateRegex.test(date)) return customRes(res, 400, false, "", "Invalid date format (YYYY-MM-DD)", "");

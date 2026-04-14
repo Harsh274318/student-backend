@@ -73,39 +73,44 @@ const absentEmailTemplate = (name, email) => `
 
 
 const absentNotify = async (req, res) => {
-    try {
-        const teacherId = req.user.id
-        if (!teacherId) return customRes(res, 400, false, "", "id not found", "");
-        const date = new Date().toISOString().split("T")[0];
-        const session = await Session.findOne()
-        if (!session) return customRes(res, 404, false, "", "session not found", "");
-        const isTeacher = await Teacher.findOne({ userId: teacherId });
-        if (!isTeacher) return customRes(res, 404, false, "", "Teacher not found", "");
+  try {
+    const teacherId = req.user.id
+    if (!teacherId) return customRes(res, 400, false, "", "id not found", "");
+    const date = new Date().toLocaleString("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).split("/").join("-")
+    const session = await Session.findOne()
+    if (!session) return customRes(res, 404, false, "", "session not found", "");
+    const isTeacher = await Teacher.findOne({ userId: teacherId });
+    if (!isTeacher) return customRes(res, 404, false, "", "Teacher not found", "");
 
-        const attendance = await Attendance.findOne({ date, session: session.currentSession, class: isTeacher.classAssigned }).populate("records.studentId", "email name")
-        if (!attendance) return customRes(res, 404, false, "", "attendance not found", "");
+    const attendance = await Attendance.findOne({ date, session: session.currentSession, class: isTeacher.classAssigned }).populate("records.studentId", "email name")
+    if (!attendance) return customRes(res, 404, false, "", "attendance not found", "");
 
-        const absentStudent = attendance.records.filter(item => item.status == "absent").map(item => ({
-            name: item.studentId.name,
-            email: item.studentId.email
-        }));
-        if (absentStudent.length == 0) return customRes(res, 404, false, "", "Absent Students not found", "")
-        const delay = (ms) => new Promise(res => setTimeout(res, ms));
-        for (const { name, email } of absentStudent) {
-            await brevoConfig.sendTransacEmail({
-                sender: { email: process.env.SERVICE_GMAIL },
-                to: [{ email }],
-                subject: "Attendance Alert: You Were Absent",
-                htmlContent: absentEmailTemplate(name, email)
-            });
-            await delay(500);
-        }
-        return customRes(res, 200, true, "email sended!", "", absentStudent)
+    const absentStudent = attendance.records.filter(item => item.status == "absent").map(item => ({
+      name: item.studentId.name,
+      email: item.studentId.email
+    }));
+    if (absentStudent.length == 0) return customRes(res, 404, false, "", "Absent Students not found", "")
+    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+    for (const { name, email } of absentStudent) {
+      await brevoConfig.sendTransacEmail({
+        sender: { email: process.env.SERVICE_GMAIL },
+        to: [{ email }],
+        subject: "Attendance Alert: You Were Absent",
+        htmlContent: absentEmailTemplate(name, email)
+      });
+      await delay(500);
     }
+    return customRes(res, 200, true, "email sended!", "", absentStudent)
+  }
 
-    catch (err) {
-        console.log("absentNotify says::", err.message);
-        return customRes(res, 500, false, "", err.message, "");
-    }
+  catch (err) {
+    console.log("absentNotify says::", err.message);
+    return customRes(res, 500, false, "", err.message, "");
+  }
 }
 export default absentNotify

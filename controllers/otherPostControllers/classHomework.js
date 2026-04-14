@@ -11,12 +11,17 @@ const classHomeWork = async (req, res) => {
         // geting teacher id from authUser middlewear
         const teacherId = req.user.id
         // create current date
-        const date = new Date().toISOString().split('T')[0];
+        const date = new Date().toLocaleString("en-CA", {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).split("/").join("-")
         // checking homework should not empty
         if (!Array.isArray(homeWork) || homeWork.length === 0) return customRes(res, 400, false, "", "Invalid homework data", "");
         // accessing sessions 
         const session = await Session.findOne();
-        if(!session) return customRes(res,404,false,"","session not found","")
+        if (!session) return customRes(res, 404, false, "", "session not found", "")
         const currentSession = session.currentSession;
         // finding teacher for access class
         const isteacher = await Teacher.findOne({ userId: teacherId });

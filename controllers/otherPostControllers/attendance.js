@@ -7,12 +7,17 @@ const attendance = async (req, res) => {
         const { records } = req.body
         const teacherId = req.user.id;
         if (!records || !email || !teacherId) return customRes(res, 400, false, "", "Something is Wrong", "");
-        const date = new Date().toISOString().split("T")[0]
+        const date = new Date().toLocaleString("en-CA", {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).split("/").join("-")
         const teacher = await Teacher.findOne({ userId: teacherId });
         if (!teacher) return customRes(res, 404, false, "", "Teacher not found", "");
         const isSession = await Session.find();
         if (!isSession) return customRes(res, 404, false, "", "session not found", "")
-        if (!currentSession) return customRes(res, 400, false, "", "check Sessions", "");
+        if (!isSession.currentSession) return customRes(res, 400, false, "", "check Sessions", "");
         const attendanceMarking = await Attendance.create({
             class: teacher.classAssigned,
             session: isSession.currentSession,
