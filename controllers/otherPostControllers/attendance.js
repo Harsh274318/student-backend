@@ -6,7 +6,7 @@ const attendance = async (req, res) => {
     try {
         const { records } = req.body
         const teacherId = req.user.id;
-        if (!records || !email || !teacherId) return customRes(res, 400, false, "", "Something is Wrong", "");
+        if (!records || !teacherId) return customRes(res, 400, false, "", "Something is Wrong", "");
         const date = new Date().toLocaleString("en-CA", {
             timeZone: "Asia/Kolkata",
             year: "numeric",
