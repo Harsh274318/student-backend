@@ -4,10 +4,10 @@ import { roleCheck } from "../middleware/roleCheck.js";
 import promotStudent from "../controllers/createUsers/promotStudent.js";
 import classHomeWork from "../controllers/otherPostControllers/classHomework.js";
 import attendance from "../controllers/otherPostControllers/attendance.js";
-import uptadeStudent from "../controllers/patch/updateStudent.js";
+import updateStudent from "../controllers/patch/updateStudent.js";
 const teacherRoute = express.Router();
 teacherRoute.post("/promot", authUser, roleCheck("Teacher"), promotStudent);
 teacherRoute.post("/homework", authUser, roleCheck("Teacher"), classHomeWork);
 teacherRoute.post("/attendance", authUser, roleCheck("Teacher"), attendance);
-teacherRoute.patch("/update-student", authUser, roleCheck("Teacher"), uptadeStudent)
+teacherRoute.patch("/update-student", authUser, roleCheck("Teacher"), updateStudent)
 export default teacherRoute;

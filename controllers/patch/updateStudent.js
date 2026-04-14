@@ -3,7 +3,7 @@ import Teacher from "../../models/newUsers/teacherSchema.js";
 import Session from "../../models/PrincipalControlModel/session.js";
 import customRes from "../../utils/customRes.js";
 
-const uptadeStudent = async (req, res) => {
+const updateStudent = async (req, res) => {
     try {
         const { rollNumber, userId } = req.query;
         const teacherId = req.user.id
@@ -28,4 +28,4 @@ const uptadeStudent = async (req, res) => {
         return customRes(res, 500, false, "", err.message, "")
     }
 }
-export default uptadeStudent
+export default updateStudent
