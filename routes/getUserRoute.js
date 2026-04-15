@@ -8,6 +8,6 @@ import getAttendance from "../controllers/otherGetControllers/getAttendance.js"
 const getUserRoute = e.Router();
 getUserRoute.get("/teachers", authUser, roleCheck("Principal"), getTeacher);
 getUserRoute.get("/students", authUser, roleCheck("Teacher"), getstudents);
-getUserRoute.get("/homework",authUser,getHomework);
-getUserRoute.get("/attendance/:id",authUser,getAttendance);
+getUserRoute.get("/homework", authUser, getHomework);
+getUserRoute.get("/attendance", authUser, getAttendance);
 export default getUserRoute;
