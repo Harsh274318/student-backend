@@ -4,7 +4,7 @@ import customRes from "../../utils/customRes.js";
 import bcrypt from "bcrypt";
 import Teacher from "../../models/newUsers/teacherSchema.js";
 import Session from "../../models/PrincipalControlModel/session.js";
-const roleStudent = "student";
+const roleStudent = "Student";
 export const createStudent = async (req, res) => {
   try {
     const {
@@ -21,8 +21,17 @@ export const createStudent = async (req, res) => {
     } = req.body;
     let { rollNumber } = req.body;
     const { url, public_id } = req.imageInfo;
-
+    console.log(name,
+      email,
+      password,
+      dob,
+      gender,
+      fatherName,
+      parentMobile,
+      notifyMethod,
+      address,)
     const teacherId = req.user.id;
+
     if (
       !name ||
       !email ||
@@ -36,6 +45,7 @@ export const createStudent = async (req, res) => {
       !address ||
       !url
     ) {
+      console.log("error")
       return customRes(
         res,
         400,
