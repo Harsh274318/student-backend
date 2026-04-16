@@ -21,15 +21,7 @@ export const createStudent = async (req, res) => {
     } = req.body;
     let { rollNumber } = req.body;
     const { url, public_id } = req.imageInfo;
-    console.log(name,
-      email,
-      password,
-      dob,
-      gender,
-      fatherName,
-      parentMobile,
-      notifyMethod,
-      address,)
+   
     const teacherId = req.user.id;
 
     if (
