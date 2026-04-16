@@ -13,11 +13,16 @@ export async function deleteStudent(req, res) {
     if (!teacherInfo) {
       return customRes(res, 404, false, "", "Teacher not found", "");
     }
+    const user = await User.findOne({ email });
+    if (!user) return customRes(res, 404, false, "", "User not found", "");
 
     const deletedStudent = await Student.findOneAndDelete({
-      email,
+      userId: user._id,
       class: teacherInfo.classAssigned,
     });
+    if (!deletedStudent) return customRes(res, 400, false, "", "Student not found", "");
+
+    await User.findByIdAndDelete(user._id);
     if (!deletedStudent) {
       return customRes(res, 400, false, "", "Student not found", "");
     }

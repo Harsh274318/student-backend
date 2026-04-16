@@ -76,25 +76,42 @@ const absentNotify = async (req, res) => {
   try {
     const teacherId = req.user.id
     if (!teacherId) return customRes(res, 400, false, "", "id not found", "");
-    const date = new Date().toLocaleString("en-CA", {
-      timeZone: "Asia/Kolkata",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }).split("/").join("-")
+    const date = new Date().toLocaleDateString("en-CA", {
+      timeZone: "Asia/Kolkata"
+    })
     const session = await Session.findOne()
     if (!session) return customRes(res, 404, false, "", "session not found", "");
     const isTeacher = await Teacher.findOne({ userId: teacherId });
     if (!isTeacher) return customRes(res, 404, false, "", "Teacher not found", "");
 
-    const attendance = await Attendance.findOne({ date, session: session.currentSession, class: isTeacher.classAssigned }).populate("records.studentId", "email name")
+    const attendance = await Attendance.findOne({
+      date,
+      session: session.currentSession,
+      class: isTeacher.classAssigned
+    }).populate({
+      path: "records.studentId",
+      model: "Student",
+      populate: {
+        path: "userId",        // Student → User
+        model: "User",
+        select: "email name"   // ✅ email/name User se aayegi
+      }
+    });
     if (!attendance) return customRes(res, 404, false, "", "attendance not found", "");
 
-    const absentStudent = attendance.records.filter(item => item.status == "absent").map(item => ({
-      name: item.studentId.name,
-      email: item.studentId.email
-    }));
-    if (absentStudent.length == 0) return customRes(res, 404, false, "", "Absent Students not found", "")
+    const absentStudent = attendance.records
+      .filter(item =>
+        item.status === "absent" &&
+        item.studentId &&
+        item.studentId.userId
+      )
+      .map(item => ({
+        name: item.studentId.userId.name,
+        email: item.studentId.userId.email
+      }));
+    if (absentStudent.length == 0) {
+      return customRes(res, 404, false, "", "Absent Students not found", "")
+    }
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
     for (const { name, email } of absentStudent) {
       await brevoConfig.sendTransacEmail({

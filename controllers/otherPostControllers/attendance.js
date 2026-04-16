@@ -15,7 +15,7 @@ const attendance = async (req, res) => {
         }).split("/").join("-")
         const teacher = await Teacher.findOne({ userId: teacherId });
         if (!teacher) return customRes(res, 404, false, "", "Teacher not found", "");
-        const isSession = await Session.find();
+        const isSession = await Session.findOne();
         if (!isSession) return customRes(res, 404, false, "", "session not found", "")
         if (!isSession.currentSession) return customRes(res, 400, false, "", "check Sessions", "");
         const attendanceMarking = await Attendance.create({

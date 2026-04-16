@@ -15,7 +15,7 @@ const attendanceSchema = new mongoose.Schema({
         required: [true, "Session is missing"]
     },
     records: [{
-        studentId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student" },
         status: { type: String, enum: ["present", "absent"], required: true }
     }
     ]
