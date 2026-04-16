@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import customRes from "../utils/customRes.js";
+import fs from "fs"
 export function authUser(req, res, next) {
   try {
     const tokenDetails = req.headers?.authorization?.split(" ");
