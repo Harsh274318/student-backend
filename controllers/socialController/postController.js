@@ -22,6 +22,7 @@ const createPost = async (req, res) => {
 
     }
     catch (err) {
+        console.log(err.message)
         return customRes(res, 500, false, "", err.message, "")
     }
 }

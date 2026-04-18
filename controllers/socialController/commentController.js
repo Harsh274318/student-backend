@@ -10,7 +10,7 @@ const comments = async (req, res) => {
         // getting email and name of user
         const { email, name } = req.user;
         // getting message for comment
-        const { message } = req.body;
+        const { message, userUrl } = req.body;
         // checking user send details 
         if (!postId) return customRes(res, 400, false, "", "Something is missing......", "");
         // checking message should not empty
@@ -28,7 +28,7 @@ const comments = async (req, res) => {
             message,
             user: name,
             userId: isUser._id.toString(),
-            url: isUser.url
+            url: userUrl
         })
         // saveing comment in post
         await post.save();
@@ -36,6 +36,7 @@ const comments = async (req, res) => {
         return customRes(res, 200, true, "Comment added successfully", "", post.comments)
     }
     catch (err) {
+        console.log(err.message)
         return customRes(res, 500, false, "", err.message, "")
     }
 }

@@ -35,7 +35,7 @@ const postSchema = new mongoose.Schema({
         ref: "User",
         default: []
     },
-    url: {
+    userUrl: {
         type: String,
         default: ""
     },
