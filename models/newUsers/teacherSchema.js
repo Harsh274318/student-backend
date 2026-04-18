@@ -5,7 +5,6 @@ const teacherSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "id is missing"],
   },
- 
   classAssigned: {
     type: Number,
     unique: [true, "user exist with this class"],
@@ -14,7 +13,7 @@ const teacherSchema = new mongoose.Schema({
   gender: {
     type: String,
     enum: ["male", "female"],
-    require: [true, "gender is missing"],
+    required: [true, "gender is missing"],
   },
 });
 const Teacher = mongoose.model("Teacher", teacherSchema);

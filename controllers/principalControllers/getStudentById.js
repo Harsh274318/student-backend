@@ -7,6 +7,7 @@ const studentById = async (req, res) => {
     try {
         // geting student rollNumber
         const roll = Number(req.params.id);
+        console.log(roll)
         // geting class and session
         const { classRoom, session } = req.query;
         // checking class and session fill should not empty
