@@ -8,15 +8,19 @@ export async function deleteTeacher(req, res) {
     if (!email) {
       return customRes(res, 400, false, "", "Email is missing!", "");
     }
-
-    const deletedTeacher = await Teacher.findOneAndDelete({ email });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return customRes(res, 400, false, "", "User not found", "");
+    }
+    const deletedTeacher = await Teacher.findOneAndDelete({ userId: user._id });
     if (!deletedTeacher) {
       return customRes(res, 400, false, "", "Teacher not found", "");
     }
-    const deletedUser = await User.findOneAndDelete({ _id:deletedTeacher.userId });
+    const deletedUser = await User.findOneAndDelete({ email });
     if (!deletedUser) {
       return customRes(res, 400, false, "", "User not found", "");
     }
+
     return customRes(res, 200, true, "Teacher Deleted successfully", "", {
       name: deletedUser.name,
       email: deletedUser.email,
