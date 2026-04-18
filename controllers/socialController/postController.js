@@ -4,7 +4,7 @@ import User from "../../models/newUsers/userSchema.js";
 
 
 const createPost = async (req, res) => {
-    const { name, title, description } = req.body
+    const { name, title, description, userUrl } = req.body
     const { id, role } = req.user
     const url = req.user.imageUrl || null
     let { category } = req.body
@@ -16,7 +16,7 @@ const createPost = async (req, res) => {
         const isUser = await User.findOne({ _id: id, role })
         if (!isUser) return customRes(res, 404, false, "", "user not found", "");
         const newPost = await Posts.create({
-            userId: id, name, title, description, role, category, url
+            userId: id, name, title, description, role, category, url, userUrl
         })
         return customRes(res, 200, true, "Post created successfully", "", newPost)
 

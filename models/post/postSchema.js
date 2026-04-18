@@ -10,6 +10,11 @@ const postSchema = new mongoose.Schema({
         required: [true, "userId is required"],
 
     },
+    userUrl: {
+        type: String,
+        required: [true, "userUrl is required"],
+
+    },
     title: {
         type: String,
         required: [true, "title is missing!"],
