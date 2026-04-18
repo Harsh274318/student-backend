@@ -43,6 +43,7 @@ export async function login(req, res) {
       email: user.email,
       role: user.role,
       name: user.name,
+      
     };
     const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "7d",
