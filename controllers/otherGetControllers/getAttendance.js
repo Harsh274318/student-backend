@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Attendance from "../../models/ERP/attendance.js";
 import Student from "../../models/newUsers/studentSchema.js";
 import Session from "../../models/PrincipalControlModel/session.js";
@@ -21,7 +22,9 @@ const getAttendance = async (req, res) => {
         const attendance = await Attendance.find({ class: isclass, session: currentSession, }, {
             date: 1,
             session: 1,
-            records: { $elemMatch: { studentId: userId } }
+            records: {  $elemMatch: { 
+                        studentId: new mongoose.Types.ObjectId(userClass._id) 
+                    }  }
         });
         if (attendance.length === 0 || !attendance) return customRes(res, 404, false, "", "data not found", "");
         return customRes(res, 200, true, "Attendance found Seccessfully", "", attendance)
