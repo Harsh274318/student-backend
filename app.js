@@ -15,6 +15,7 @@ const PORT = process.env.PORT;
 const app = express();
 import cors from "cors";
 import principalRoute from "./routes/principalRoutes.js";
+import googleRoute from "./routes/google.js";
 app.use(cors());
 app.use(express.json());
 // :api calls
@@ -38,6 +39,8 @@ app.use("/api/teacher", teacherRoute);
 // for post Routes
 app.use("/api/social", postRoute);
 app.use("/api", principalRoute);
+// google forms
+app.use("/api",googleRoute)
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT} `);
 });
