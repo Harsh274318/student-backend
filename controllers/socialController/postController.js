@@ -18,7 +18,9 @@ const createPost = async (req, res) => {
         const newPost = await Posts.create({
             userId: id, name, title, description, role, category, url, userUrl
         })
-        return customRes(res, 200, true, "Post created successfully", "", newPost)
+        const restPost = await Posts.find()
+        if (restPost.length === 0) return customRes(res, 404, false, "", "Post not found", "");
+        return customRes(res, 200, true, "Post created successfully", "", restPost)
 
     }
     catch (err) {
