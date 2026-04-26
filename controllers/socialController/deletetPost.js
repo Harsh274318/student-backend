@@ -4,13 +4,18 @@ import customRes from "../../utils/customRes.js";
 const deletePost = async (req, res) => {
     try {
         const { postId } = req.params;
-        const id = req.user.id;
+        const { id, role } = req.user;
         if (!postId || !id) return customRes(res, 400, false, "", "Something is Wrong", "");
-        const removePost = await Posts.findOneAndDelete({ _id: postId, userId: id });
+        let removePost = null;
+        if (role === "Principal") {
+            removePost = await Posts.findOneAndDelete({ _id: postId });
+
+        } else {
+            removePost = await Posts.findOneAndDelete({ _id: postId, userId: id });
+        }
 
         if (!removePost) return customRes(res, 404, false, "", "Post not found", "");
         const restPost = await Posts.find()
-        if (restPost.length === 0) return customRes(res, 404, false, "", "Post not found", "");
         return customRes(res, 200, true, "Post deleted successfully", "", restPost);
     } catch (err) {
         console.log("deletePost says::", err.message);

@@ -15,10 +15,6 @@ export const multerImagepost = multer({
     limits: { fileSize: 1024 * 1024 * 3 }, // 3MB
     fileFilter: (req, file, cb) => {
 
-        // role check
-        if (!(req.user.role === "Teacher" || req.user.role === "Principal")) {
-            return cb(new Error("Only Teacher or Principal can upload"), false);
-        }
 
         // file type check
         const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];

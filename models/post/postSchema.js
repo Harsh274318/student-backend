@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { type } from "os";
 const postSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -29,6 +30,10 @@ const postSchema = new mongoose.Schema({
         type: String,
         enum: ["study", "student", "news", "announcement", "general"],
         trim: true
+    },
+    imageurl: {
+        type: String,
+        default: ""
     },
     likes: {
         type: [mongoose.Schema.Types.ObjectId],

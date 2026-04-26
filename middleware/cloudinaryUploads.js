@@ -9,6 +9,10 @@ const cloudinaryUploads = async function (req, res, next) {
         const { email } = req.body
         if (!email) return customRes(res, 400, false, "", "info missing", "");
         const isUser = await User.findOne({ email });
+        if (!(req.user.role === "Teacher" || req.user.role === "Principal")) {
+            if (req.file?.path) fs.unlinkSync(req.file.path);
+            return next()
+        }
         if (isUser && isUser.public_id) { await cloudinary.uploader.destroy(isUser.public_id) }
 
         if (!req.file || !req.file.path) return customRes(res, 400, false, "", "not found Image", "")
@@ -18,8 +22,7 @@ const cloudinaryUploads = async function (req, res, next) {
             url: result.secure_url,
             public_id: result.public_id
         };
-        // console.log("everything is okk in cloud")
-        next();
+        return next();
 
 
     }

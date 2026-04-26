@@ -6,7 +6,7 @@ import User from "../../models/newUsers/userSchema.js";
 const createPost = async (req, res) => {
     const { name, title, description, userUrl } = req.body
     const { id, role } = req.user
-    const url = req.user.imageUrl || null
+    const url = req?.imageInfo?.url || null
     let { category } = req.body
     try {
         if (!name || !title || !description || !category) return customRes(res, 400, false, "", "Something is missing check all filled", "");
@@ -16,7 +16,7 @@ const createPost = async (req, res) => {
         const isUser = await User.findOne({ _id: id, role })
         if (!isUser) return customRes(res, 404, false, "", "user not found", "");
         const newPost = await Posts.create({
-            userId: id, name, title, description, role, category, url, userUrl
+            userId: id, name, title, description, role, category, imageurl: url, userUrl
         })
         const restPost = await Posts.find()
         if (restPost.length === 0) return customRes(res, 404, false, "", "Post not found", "");
