@@ -16,6 +16,7 @@ const app = express();
 import cors from "cors";
 import principalRoute from "./routes/principalRoutes.js";
 import googleRoute from "./routes/google.js";
+import aiRoute from "./routes/aiRoute.js";
 app.use(cors());
 app.use(express.json());
 // :api calls
@@ -38,6 +39,8 @@ app.use("/api/notify", sendRoute);
 app.use("/api/teacher", teacherRoute);
 // for post Routes
 app.use("/api/social", postRoute);
+// AI APIs
+app.use("/api",aiRoute)
 app.use("/api", principalRoute);
 // google forms
 app.use("/api",googleRoute)
