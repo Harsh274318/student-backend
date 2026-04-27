@@ -24,7 +24,7 @@ Your task:
 Analyze the given title and description, understand the intent, and generate improved versions of both.
 
 Title Requirements:
-- Very short (maximum 8–12 words)
+- Very short (maximum 3–6 words)
 - Clean, simple, and meaningful
 - Clearly reflect the purpose of the post (why the user is posting)
 - Relevant to a school environment
