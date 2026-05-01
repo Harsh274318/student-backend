@@ -18,7 +18,7 @@ import principalRoute from "./routes/principalRoutes.js";
 import googleRoute from "./routes/google.js";
 import aiRoute from "./routes/aiRoute.js";
 app.use(cors({
-  origin: process?.env?.FRONTEND_ORIGIN || "http://localhost:5173",
+  origin: [process?.env?.FRONTEND_ORIGIN, "http://localhost:5173"],
   credentials: true
 }));
 app.use(express.json());
