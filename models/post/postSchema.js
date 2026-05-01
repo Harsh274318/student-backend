@@ -28,7 +28,7 @@ const postSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ["study", "student", "news", "announcement", "general"],
+        enum: ["study", "student", "news", "announcement", "general","public"],
         trim: true
     },
     imageurl: {

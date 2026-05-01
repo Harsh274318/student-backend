@@ -17,7 +17,10 @@ import cors from "cors";
 import principalRoute from "./routes/principalRoutes.js";
 import googleRoute from "./routes/google.js";
 import aiRoute from "./routes/aiRoute.js";
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",
+  credentials: true
+}));
 app.use(express.json());
 // :api calls
 app.get("/", (req, res) => {
@@ -40,10 +43,10 @@ app.use("/api/teacher", teacherRoute);
 // for post Routes
 app.use("/api/social", postRoute);
 // AI APIs
-app.use("/api",aiRoute)
+app.use("/api", aiRoute)
 app.use("/api", principalRoute);
 // google forms
-app.use("/api",googleRoute)
+app.use("/api", googleRoute)
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT} `);
 });
