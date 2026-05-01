@@ -18,7 +18,7 @@ const updateStudent = async (req, res) => {
         const student = await Student.findOneAndUpdate(
             { userId, rollNumber, session: session.currentSession },
             { $set: data },
-            { new: true }
+            { returnDocument: 'after' }
         );
         if (!student) return customRes(res, 404, false, "", "Student not found", "");
         return customRes(res, 200, true, "Student updated successfully", "", student);
