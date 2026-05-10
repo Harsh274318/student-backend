@@ -57,33 +57,3 @@ const studentSchema = new mongoose.Schema(
 );
 const Student = mongoose.model("Student", studentSchema);
 export default Student;
-
-//  name: {
-//     type: String,
-//     required: [true, "Name is missing"],
-//     trim: true,
-//     lowercase: true,
-//     match: [/^[a-z ]+$/, "name should be only in lowerCase"],
-//   },
-//   email: {
-//     type: String,
-//     trim: true,
-//     required: [true, "email is missing"],
-//     unique: true,
-//     lowercase: true,
-//     match: [/^\S+@\S+\.\S+$/, "Enter valid email"],
-//   },
-//   password: {
-//     type: String,
-//     required: [true, "password is missing"],
-//     minlength: 8,
-//     match: [
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@!#$%&*]).+$/,
-//       "Password should be Strong",
-//     ],
-//   },
-//   role: {
-//     type: String,
-//     enum: ["principal"],
-//     required: [true, "role is missing"],
-//   },

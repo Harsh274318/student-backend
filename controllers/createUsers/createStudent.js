@@ -21,7 +21,6 @@ export const createStudent = async (req, res) => {
     } = req.body;
     let { rollNumber } = req.body;
     const { url, public_id } = req.imageInfo;
-   
     const teacherId = req.user.id;
 
     if (

@@ -22,10 +22,6 @@ export async function deleteStudent(req, res) {
     });
     if (!deletedStudent) return customRes(res, 400, false, "", "Student not found", "");
 
-    await User.findByIdAndDelete(user._id);
-    if (!deletedStudent) {
-      return customRes(res, 400, false, "", "Student not found", "");
-    }
     const deletedUser = await User.findOneAndDelete({
       _id: deletedStudent.userId,
     });
