@@ -10,7 +10,7 @@ const otpCkecker = async (req, res, next) => {
         const user = await OTP.findOne({ email })
         if (!user) return customRes(res, 404, false, "", "otp not found with this email", "");
         const verifyOtp = await bcrypt.compare(otp, user.otp);
-        if (!verifyOtp) return customRes(res, 401, false, "", "OTP mismatch try again", "");
+        if (!verifyOtp) return customRes(res, 404, false, "", "OTP mismatch try again", "");
         await OTP.deleteOne({ email })
         next()
 

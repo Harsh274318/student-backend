@@ -22,6 +22,9 @@ export function authUser(req, res, next) {
   } catch (err) {
     console.log(err.message, "auth");
     if (req.file?.path) fs.unlinkSync(req.file.path);//remove image which comes with req
+    if (err.name === "TokenExpiredError") {
+    return customRes(res, 401, false, "", "login again", "");
+  }
     return customRes(res, 500, false, "", err, "");
   }
 }
