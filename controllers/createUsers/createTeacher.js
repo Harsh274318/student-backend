@@ -5,7 +5,8 @@ import Teacher from "../../models/newUsers/teacherSchema.js";
 const teacherRole = "Teacher";
 export async function createTeacher(req, res) {
   const { name, email, password, gender } = req.body;
-  let { asClass } = req.body;
+  let { asClass, salary } = req.body;
+
   const { url, public_id } = req.imageInfo;
   try {
     if (!name || !email || !password || !asClass || !gender || !url) {
@@ -19,8 +20,11 @@ export async function createTeacher(req, res) {
       );
     }
     asClass = Number(asClass);
+    salary = Number(salary)
     if (isNaN(asClass)) return customRes(res, 400, false, "", "Class must be a number", "");
+    if(isNaN(salary)) return customRes(res, 400, false, "", "salary must be a number", "");
     if (asClass < 1 || asClass > 12) return customRes(res, 400, false, "", "Class must between 1 and 12", "")
+      if(salary<1000) return customRes(res, 400, false, "", "salary must be a more then 1000", "");
     const isUser = await User.findOne({ email });
     if (isUser) {
       return customRes(res, 409, false, "", "user already exist", "");
@@ -52,6 +56,7 @@ export async function createTeacher(req, res) {
       userId: newUser._id,
       gender,
       classAssigned: asClass,
+      salary
     });
     return customRes(res, 201, true, "Teacher created successfully", "", {
       name,

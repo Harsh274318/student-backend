@@ -92,9 +92,9 @@ const absentNotify = async (req, res) => {
       path: "records.studentId",
       model: "Student",
       populate: {
-        path: "userId",        
+        path: "userId",
         model: "User",
-        select: "email name"   
+        select: "email name"
       }
     });
     if (!attendance) return customRes(res, 404, false, "", "attendance not found", "");

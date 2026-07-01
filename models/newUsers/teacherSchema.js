@@ -15,6 +15,10 @@ const teacherSchema = new mongoose.Schema({
     enum: ["male", "female"],
     required: [true, "gender is missing"],
   },
+  salary: {
+    type: Number,
+    required:[true,"salary is missing..."]
+  }
 });
 const Teacher = mongoose.model("Teacher", teacherSchema);
 export default Teacher;
