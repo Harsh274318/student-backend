@@ -17,6 +17,7 @@ import cors from "cors";
 import principalRoute from "./routes/principalRoutes.js";
 import googleRoute from "./routes/google.js";
 import aiRoute from "./routes/aiRoute.js";
+import generateMonthCalendar from "./controllers/calendar.js";
 app.use(cors({
   origin: [process?.env?.FRONTEND_ORIGIN, "http://localhost:5173"],
   credentials: true

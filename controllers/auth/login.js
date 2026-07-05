@@ -2,6 +2,7 @@ import customRes from "../../utils/customRes.js";
 import User from "../../models/newUsers/userSchema.js";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
+import DeviceBinding from "../../models/ERP/DeviceBinding.js";
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
@@ -38,12 +39,16 @@ export async function login(req, res) {
         "",
       );
     }
+    const isBinded = await DeviceBinding.findOne({
+      teacherId: user._id
+    });
+
     const payload = {
       id: user._id,
       email: user.email,
       role: user.role,
       name: user.name,
-      
+
     };
     const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -55,7 +60,8 @@ export async function login(req, res) {
       name: user.name,
       token,
       url: user.url,
-      public_id: user.public_id
+      public_id: user.public_id,
+      binded: isBinded.isDeviceBind
     });
   } catch (err) {
     console.log(err.message);

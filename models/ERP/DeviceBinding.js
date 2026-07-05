@@ -7,7 +7,10 @@ const DeviceBindingSchema = new mongoose.Schema({
         required: [true, "Teacher Id missing"],
         unique: true,
     },
-
+    isDeviceBind: {
+        type: Boolean,
+        default: false
+    },
     userAgent: {
         type: String,
     },
