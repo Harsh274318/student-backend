@@ -51,9 +51,9 @@ export async function login(req, res) {
 
     };
     const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: "100d",
     });
-    return customRes(res, 200, true, "login successfully!", "", {
+    const returnPayload = {
       id: user._id,
       email,
       role: user.role,
@@ -61,8 +61,11 @@ export async function login(req, res) {
       token,
       url: user.url,
       public_id: user.public_id,
-      binded: isBinded.isDeviceBind
-    });
+    }
+    if (user.role === "Teacher") {
+      returnPayload.binded = isBinded.isDeviceBind
+    }
+    return customRes(res, 200, true, "login successfully!", "", returnPayload);
   } catch (err) {
     console.log(err.message);
     return customRes(res, 500, false, "", err.message, "");
