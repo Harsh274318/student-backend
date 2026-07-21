@@ -5,9 +5,9 @@ import Teacher from "../../models/newUsers/teacherSchema.js";
 const teacherRole = "Teacher";
 export async function createTeacher(req, res) {
   const { name, email, password, gender } = req.body;
-  let { asClass, salary } = req.body;
-
   const { url, public_id } = req.imageInfo;
+  const principalId=req.user.id
+  let { asClass, salary } = req.body;
   try {
     if (!name || !email || !password || !asClass || !gender || !url) {
       return customRes(
@@ -56,6 +56,7 @@ export async function createTeacher(req, res) {
       userId: newUser._id,
       gender,
       classAssigned: asClass,
+      principalId,
       salary
     });
     return customRes(res, 201, true, "Teacher created successfully", "", {

@@ -28,7 +28,7 @@ const schoolConfigSchema = new mongoose.Schema({
     },
     schoolClose: {
         type: String,
-        default: "01:00"
+        default: "13:00"
     },
     openGrace: {
         type: Number,

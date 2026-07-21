@@ -5,6 +5,7 @@ export const roleCheck = (allowedRole) => {
     if (!req.user || req.user.role !== allowedRole) {
       return customRes(res, 403, false, "", "Access denied", "");
     }
+    
     next();
   };
 };

@@ -6,26 +6,22 @@ const teacherAttendanceSchema = new mongoose.Schema({
         required: [true, "teacherID is missing"],
     },
     date: {
-        type: Date,
+        type: String,
         required: [true, "date is missing"],
     },
-    status: {
-        type: String,
-        enum: ["present", "absent", "late","half"],
-        default: "absent"
-    },
     checkIn: {
-        type: Date,
-        default: null,
+        type: String,
+        default: "",
 
     },
     checkOut: {
-        type: Date,
-        default: null,
+        type: String,
+        default: "",
     },
-    gps: {
-        lat: { type: Number, default: null },
-        lng: { type: Number, default: null }
+    status: {
+        type: String,
+        enum: ["present", "absent", "late", "half"],
+        default: "absent"
     },
 
     isWorkingDay: {

@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
+
 const teacherSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: [true, "id is missing"],
   },
+  principalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  }
+  ,
   classAssigned: {
     type: Number,
     unique: [true, "user exist with this class"],
@@ -17,7 +24,7 @@ const teacherSchema = new mongoose.Schema({
   },
   salary: {
     type: Number,
-    required:[true,"salary is missing..."]
+    required: [true, "salary is missing..."]
   }
 });
 const Teacher = mongoose.model("Teacher", teacherSchema);
