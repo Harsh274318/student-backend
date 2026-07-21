@@ -1,0 +1,17 @@
+name: Wakeup Backend
+
+on:
+  schedule:
+    # 2:00 PM IST = 8:30 AM UTC
+    - cron: "30 8 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  wakeup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wake Backend
+        run: |
+          curl -L https://student-backend-tx66.onrender.com/health
